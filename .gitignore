@@ -1,0 +1,15 @@
+.vscode/
+
+Include/
+Lib/
+Scripts/
+share/
+pyvenv.cfg
+
+__pycache__/
+
+test.*
+
+*.o
+*.out
+*.exe
