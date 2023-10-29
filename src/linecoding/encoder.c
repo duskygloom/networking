@@ -57,18 +57,16 @@ char *hex_to_bin(int ch)
 
 void write_data(FILE *datafile, int ch)
 {
-    static float index = 0.0f;
+    static int index = 0;
     char bits[5];
     int numeric;
     strcpy(bits, hex_to_bin(ch));
-    for (int bit = 0; bit < 4; ++bit) {
-        for (int sample = 0; sample < NUM_SAMPLES_PER_BIT; ++sample) {
-            numeric = bits[bit] - '0';
-            fprintf(datafile, "%f %f ", 
-                index + (float)sample/NUM_SAMPLES_PER_BIT, 
-                (float)(numeric + numeric - 1)
-            );
-        }
-        index += 1.0f;
+    for (int bit = 0; bit < 4; ++bit, ++index) {
+        numeric = bits[bit] - '0';
+        fprintf(datafile, "%d %.4f ", 
+            index,
+            (float)(numeric + numeric - 1)
+        );
+
     }
 }
