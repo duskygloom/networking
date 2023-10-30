@@ -14,6 +14,7 @@ class ArgHandler(argparse.ArgumentParser):
         default_title = "GRAPH"
         default_xlabel = "X-axis"
         default_ylabel = "Y-axis"
+        default_xstep = 1.0
         default_figfile = "graph.svg"
         # adding arguments
         self.add_argument(
@@ -49,6 +50,13 @@ class ArgHandler(argparse.ArgumentParser):
             type=str,
             metavar="name",
             help=f"label of Y-axis, default: '{default_ylabel}'"
+        )
+        self.add_argument(
+            "-s", "--xstep",
+            default=default_xstep,
+            type=float,
+            metavar="value",
+            help=f"step value for the range of xticks, default: {default_xstep}"
         )
         self.add_argument(
             "-f", "--figfile",

@@ -11,6 +11,7 @@ plotter.setup(
     title=args.title,
     xlabel=args.xlabel,
     ylabel=args.ylabel,
+    xstep=args.xstep
 )
 plotter.plot(args.data)
 plotter.save(args.figfile)

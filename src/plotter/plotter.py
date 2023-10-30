@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plot
+import numpy
 
 import webbrowser
 
@@ -13,19 +14,21 @@ class Plotter:
             title: str, 
             xlabel: str, 
             ylabel: str,
+            xstep: float
     ):
         fig = self.figure
         axis = self.axis
-        fig.set_figwidth(nsignals)
+        fig.set_figwidth(nsignals/xstep)
         fig.set_figheight(3)
         axis.set_title(title)
         axis.set_ylabel(ylabel)
         axis.set_yticks((-2, -1, 0, 1, 2))
         axis.set_ylim(-2.5, 2.5)
         axis.set_xlabel(xlabel)
-        axis.set_xticks(range(0, nsignals+1))
-        axis.set_xlim(-0.5, nsignals+0.5)
-        axis.set_xticklabels(range(0, nsignals+1))
+        xticks = numpy.arange(0, nsignals, xstep)
+        axis.set_xticks(xticks)
+        axis.set_xlim(-xstep, nsignals+xstep)
+        axis.set_xticklabels([round(i, 4) for i in xticks])
         axis.plot([0, nsignals], [0, 0], linestyle="dashed", color="gray")
 
     def plot(self, datafile: str):
