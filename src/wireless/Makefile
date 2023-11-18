@@ -1,7 +1,7 @@
 CC = gcc
 DIR = build
 APP = a.exe
-OBJECTS = $(DIR)/encoder.o $(DIR)/noise_addition.o $(DIR)/main.o
+OBJECTS = $(DIR)/encoder.o $(DIR)/ask_noise_addition.o $(DIR)/main.o
 
 all: $(APP)
 

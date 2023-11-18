@@ -1,5 +1,5 @@
-#ifndef NOISE_ADDITION_H
-#define NOISE_ADDITION_H
+#ifndef ASK_NOISE_ADDITION_H
+#define ASK_NOISE_ADDITION_H
 
 #include <stdio.h>
 #define _USE_MATH_DEFINES
@@ -7,10 +7,9 @@
 
 #define AMPLITUDE       1.0
 #define FREQUENCY       10.0
-#define PHASEDIFF       0.0
 
-#define SIGNAL_AT(time) (AMPLITUDE * cos(2*M_PI*FREQUENCY*time + PHASEDIFF))
-#define SIGNAL_AT_PHASE(time, phase) (AMPLITUDE * cos(2*M_PI*FREQUENCY*time + phase))
+#define SIGNAL_AT(time) (AMPLITUDE * cos(2*M_PI*FREQUENCY*time))
+#define SIGNAL_AT_AMP(time, amp) (amp * cos(2*M_PI*FREQUENCY*time))
 
 /**
  * @param noisydata

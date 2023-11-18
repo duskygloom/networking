@@ -25,7 +25,7 @@ class Plotter:
         axis.set_yticks((-2, -1, 0, 1, 2))
         axis.set_ylim(-2.5, 2.5)
         axis.set_xlabel(xlabel)
-        xticks = numpy.arange(0, nsignals, xstep)
+        xticks = numpy.arange(0, nsignals+xstep, xstep)
         axis.set_xticks(xticks)
         axis.set_xlim(-xstep, nsignals+xstep)
         axis.set_xticklabels([round(i, 4) for i in xticks])

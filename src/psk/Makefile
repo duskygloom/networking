@@ -1,7 +1,7 @@
 DIR = build
 CC = gcc
-OBJECTS = $(DIR)/main.o
 BINARY = a.exe
+OBJECTS = $(DIR)/main.o $(DIR)/encoder.o $(DIR)/noise_addition.o
 
 all: $(BINARY)
 

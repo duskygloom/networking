@@ -4,9 +4,12 @@
 
 #define NUM_SAMPLES_PER_BIT 10
 
-#define DATAFILE     "datafile.dat"
-#define NOISEFILE    "noises.dat"
-#define NOISYDATA    "noisydata.dat"
+#define DATAFILE     "_datafile.dat"
+#define NOISEFILE    "_noises.dat"
+#define NOISYDATA    "_noisydata.dat"
+
+#define PYTHON  "C:/Users/sarka/Home/Programs/college/networking/Scripts/python.exe"
+#define PLOTTER "C:/Users/sarka/Home/Programs/college/networking/src/plotter/main.py"
 
 int main(int argc, char *argv[])
 {
@@ -48,11 +51,14 @@ int main(int argc, char *argv[])
     fclose(noisefile);
     fclose(datafile);
 
+    printf("%s %s -d %s -n %d ", PYTHON, PLOTTER, NOISYDATA, nbits);
+    printf("-t \"NRZ-L\" -x \"Bit duration\" -y \"Signal\" -f \"_graph.svg\"\n");
+
     // decoding
-    if (!(noisydata = fopen(NOISYDATA, "r"))) {
-        printf("Failed to read %s.\n", NOISYDATA);
-        return 6;
-    }
-    fclose(noisydata);
+    // if (!(noisydata = fopen(NOISYDATA, "r"))) {
+    //     printf("Failed to read %s.\n", NOISYDATA);
+    //     return 6;
+    // }
+    // fclose(noisydata);
     return 0;
 }
