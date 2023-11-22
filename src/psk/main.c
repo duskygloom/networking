@@ -6,10 +6,10 @@
 #define NOISYDATA   "_noisydata.dat"
 #define BINARYFILE  "_binary.txt"
 
+#define NPSK        4
+
 #define PYTHON  "C:/Users/sarka/Home/Programs/college/networking/Scripts/python.exe"
 #define PLOTTER "C:/Users/sarka/Home/Programs/college/networking/src/plotter/main.py"
-
-#define NPSK        4
 
 #define NUM_SAMPLES_PER_BIT 100
 
@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
     fclose(datafile);
     fclose(noisydata);
     // printing plotting command
-    printf("%s %s -d %s -n %d ", PYTHON, PLOTTER, NOISYDATA, nsymbols);
-    printf("-t \"NRZ-L\" -x \"Bit duration\" -y \"Signal\" -s 0.1 -f \"_graph.svg\"\n");
+    printf("%s %s -d %s -n %d -t \"%d-PSK\" ", PYTHON, PLOTTER, NOISYDATA, nsymbols, NPSK);
+    printf("-x \"Bit duration\" -y \"Signal\" -s 0.1 -f \"_graph.svg\"\n");
     return 0;
 }

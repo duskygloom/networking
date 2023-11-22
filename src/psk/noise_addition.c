@@ -4,6 +4,8 @@
 #include <math.h>
 #include <stdlib.h>
 
+#define NO_NOISE
+
 char *gray_to_bin(char *graycode, char *binary)
 {
     int i = 0;
@@ -22,27 +24,34 @@ int bin_to_int(char *binary)
     return value;
 }
 
+double phase_shifted_signal(double phase, double time)
+{
+    double ac = AMPLITUDE * cos(phase);
+    double as = -AMPLITUDE * sin(phase);
+    double signal = ac*cos(2*M_PI*FREQUENCY*time)+as*sin(2*M_PI*FREQUENCY*time);
+    return signal;
+}
+
 void write_noisy_data(FILE *noisydata, FILE *datafile, FILE *noisefile, int nbits, int nsymbols, int nsamples)
 {
-    int index, symbol, time_int = 0;
+    int index, symbol;
     char *binary = calloc(nbits+1, sizeof(char));
     char *graycode = calloc(nbits+1, sizeof(char));
-    double ac, as, phase;
-    double signal, time, noise = 0.0;
+    double phase, signal, time, noise = 0.0;
     for (int i = 0; i < nsymbols; ++i) {
         fscanf(datafile, "%d", &index);
         fscanf(datafile, "%s", graycode);
         symbol = bin_to_int(gray_to_bin(graycode, binary));
         phase = (1+2*symbol) * M_PI / pow(2, nbits);
         for (int j = 0; j < nsamples; ++j) {
-            ac = AMPLITUDE * cos(phase);
-            as = -AMPLITUDE * sin(phase);
             fprintf(noisydata, "%lf ", index+(double)j/nsamples);
-            time = time_int + (double)j/nsamples;
+            time = floor(time) + (double)j/nsamples;
+            #ifndef NO_NOISE
             fscanf(noisefile, "%lf", &noise);
-            fprintf(noisydata, "%lf ", ac*cos(2*M_PI*FREQUENCY*time)+as*sin(2*M_PI*FREQUENCY*time)+noise);
+            #endif
+            fprintf(noisydata, "%lf ", phase_shifted_signal(phase, time)+noise);
         }
-        ++time_int;
+        time = ceil(time);
     }
     free(graycode);
     free(binary);

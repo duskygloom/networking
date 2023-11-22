@@ -9,7 +9,7 @@ $(BINARY): $(OBJECTS)
 	$(CC) $^ -o $(BINARY) -g
 
 $(DIR)/%.o: %.c
-	$(CC) $^ -o $@ -c
+	$(CC) $^ -o $@ -c -g
 
 clean:
 	rm $(DIR)/*
