@@ -1,15 +1,17 @@
 #include "encoder.h"
 #include "noise_addition.h"
 
+#include <stdlib.h>
+
 #define DATAFILE    "_datafile.txt"
-#define NOISEFILE   "_noises.dat"
-#define NOISYDATA   "_noisydata.dat"
+#define NOISEFILE   "_noises.txt"
+#define NOISYDATA   "_noisydata.txt"
 #define BINARYFILE  "_binary.txt"
 
-#define NPSK        4
+#define NPSK        8
 
-#define PYTHON  "C:/Users/sarka/Home/Programs/college/networking/Scripts/python.exe"
-#define PLOTTER "C:/Users/sarka/Home/Programs/college/networking/src/plotter/main.py"
+#define PYTHON  "python3"
+#define PLOTTER "../plotter/main.py"
 
 #define NUM_SAMPLES_PER_BIT 100
 
@@ -66,7 +68,10 @@ int main(int argc, char **argv) {
     fclose(datafile);
     fclose(noisydata);
     // printing plotting command
-    printf("%s %s -d %s -n %d -t \"%d-PSK\" ", PYTHON, PLOTTER, NOISYDATA, nsymbols, NPSK);
-    printf("-x \"Bit duration\" -y \"Signal\" -s 0.1 -f \"_graph.svg\"\n");
+    char command[200];
+    sprintf(command, "%s %s -d %s -n %d -t \"%d-PSK\" -x \"Bit duration\" -y \"Signal\" -s 0.1 -f \"_graph.svg\"\n", 
+            PYTHON, PLOTTER, NOISYDATA, nsymbols, NPSK);
+    puts(command);
+    system(command);
     return 0;
 }
