@@ -1,18 +1,33 @@
-bitsfile    = "bitstream.dat"
-flag        = "011110"
+import sys, random
 
-def tx(txstream: str) -> str:
+flag    = "011110"
+
+MIN_STREAM_LENGTH   = 30
+MAX_STREAM_LENGTH   = 60
+
+def generate_random_bitstream(filename: str):
+    n = random.randint(MIN_STREAM_LENGTH, MAX_STREAM_LENGTH);
+    f = open(filename, "w")
+    for i in range(n):
+        f.write(str(int(random.randint(0, 20) > 5)))
+    f.close()
+
+def tx(txstream: str) -> (str, str):
     '''
         Takes input bit stream as argument.
         Returns modified stream.
     '''
     rxstream = ""
+    change = ""
     for bit in txstream:
         rxstream += bit
+        change += " "
         if (rxstream[-4:] == "0111"):
             rxstream += "0"
+            change += "^"
     rxstream += flag
-    return rxstream
+    change += "-"*len(flag)
+    return rxstream, change
 
 def rx(rxstream: str) -> str:
     '''
@@ -36,12 +51,19 @@ def rx(rxstream: str) -> str:
     return txstream
 
 if __name__ == "__main__":
-    f = open(bitsfile, "r")
+    if (len(sys.argv) < 2):
+        print("Missing bitstream file.")
+        print(f"Usage: {sys.argv[0]} <filename>")
+        sys.exit(0)
+    generate_random_bitstream(sys.argv[1])
+    f = open(sys.argv[1], "r")
     stream = f.read()
     f.close()
-    print(f"Tx                  : {stream}")
-    stuff = tx(stream)
-    print(f"Tx after stuffing   : {stuff}")
+    print(f"Original stream     : {stream}")
+    stuff, change = tx(stream)
+    print(f"Transmitted stream  : {stuff}")
+    print(f"Bit stuffing        : {change}")
     unstuff = rx(stuff)
-    print(f"Rx after unstuffing : {unstuff}")
+    print(f"Received stream     : {unstuff}")
     print(f"\nOverhead = {len(stuff)-len(stream)}")
+

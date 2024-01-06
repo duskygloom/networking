@@ -4,8 +4,14 @@
 #define FLAG_STRIP	"0111"
 #define FLAG_LENGTH	6
 
-#include <stdio.h>
+#define MIN_STREAM_LENGTH	30
+#define MAX_STREAM_LENGTH	60
 
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+void generate_random_bitstream(const char *filename);
 Stream *tx(const Stream *stream, Stream *change);
 Stream *rx(const Stream *stream);
 
@@ -16,6 +22,7 @@ int main(int argc, char **argv)
 		printf("Usage: %s <file>\n", argv[0]);
 		return 0;
 	}
+	generate_random_bitstream(argv[1]);
 	Stream *stream = stream_from_file(argv[1]);
 	printf("Original stream		: ");
 	print_stream(stream);
@@ -32,6 +39,20 @@ int main(int argc, char **argv)
 	print_stream(rxstream);
 	delete_stream(rxstream);
 	return 0;
+}
+
+void generate_random_bitstream(const char *filename)
+{
+	srand(time(0));
+	int n = rand() % (MAX_STREAM_LENGTH - MIN_STREAM_LENGTH) + MIN_STREAM_LENGTH;
+	FILE *fp = fopen(filename, "w");
+	if (!fp) {
+		printf("[Error] Could not write random bitstream into %s.\n", filename);
+		return;
+	}
+	for (int i = 0; i < n; ++i)
+		fputc((rand() > RAND_MAX/4) + '0', fp);
+	fclose(fp);
 }
 
 Stream *tx(const Stream *stream, Stream *change)
@@ -72,3 +93,4 @@ Stream *rx(const Stream *stream)
 	delete_stream(buffer);
 	return rxstream;
 }
+
